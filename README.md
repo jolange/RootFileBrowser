@@ -1,4 +1,4 @@
-RootFileBrower
+RootFileBrowser
 ==============
 
 Small program to view a [CERN ROOT](http://root.cern.ch) *.root file in a TBrowser.
