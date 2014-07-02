@@ -54,6 +54,7 @@ $(OBJDIR)/%_dict.cpp: $(EXTDIR)/%.hpp
 
 # == Dependencies ==
 $(OBJDIR)/RootFileBrowser.o: $(EXTDIR)/TAppKillManager.hpp
+$(OBJDIR)/RootFileBrowser_dict.cpp: $(EXTDIR)/TAppKillManager.hpp
 
 $(OBJDIR):
 	mkdir -p $@
