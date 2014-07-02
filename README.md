@@ -10,7 +10,7 @@ Uses [TAppKillManager](https://github.com/johannes-lange/TAppKillManager).
 Usage
 -----
 
-<pre><code>$ git clone https://github.com/johannes-lange/RootFileBrower.git
+<pre><code>$ git clone https://github.com/johannes-lange/RootFileBrowser.git
 $ git submodule init
 $ git submodule update
 $ make
