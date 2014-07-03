@@ -16,7 +16,7 @@ int main(int argc, char* argv[])
    TFile file(argv[1],"READ");
    if (file.IsZombie()){
       std::cout << "File is not valid or does not exist!" << std::endl;
-      //return -1;
+      return -1;
    }
 
    TApplication app("RootFileBrowser",&argc,argv);
