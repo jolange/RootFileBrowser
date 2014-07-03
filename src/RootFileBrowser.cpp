@@ -23,8 +23,7 @@ int main(int argc, char* argv[])
    TAppKillManager killer(app);
    TBrowser* browser=new TBrowser();
    TRootBrowser* imp=(TRootBrowser*)browser->GetBrowserImp();
-   imp->Connect(imp,                  "CloseWindow()",
-                "TApplication", &app, "Terminate()"  );
+   killer.KillOnSignal(imp,"CloseWindow()");
    app.Run();
    delete browser;
    file.Close();
