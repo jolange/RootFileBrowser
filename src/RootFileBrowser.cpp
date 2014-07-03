@@ -2,6 +2,7 @@
 
 #include "TApplication.h"
 #include "TBrowser.h"
+#include "TRootBrowser.h"
 #include "TFile.h"
 
 #include "3rdParty/TAppKillManager.hpp"
@@ -21,7 +22,9 @@ int main(int argc, char* argv[])
    TApplication app("RootFileBrowser",&argc,argv);
    TAppKillManager killer(app);
    TBrowser* browser=new TBrowser();
-   std::cout << "start" << std::endl;
+   TRootBrowser* imp=(TRootBrowser*)browser->GetBrowserImp();
+   imp->Connect(imp,                  "CloseWindow()",
+                "TApplication", &app, "Terminate()"  );
    app.Run();
    delete browser;
    file.Close();
