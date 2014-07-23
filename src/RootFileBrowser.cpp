@@ -4,6 +4,7 @@
 #include "TBrowser.h"
 #include "TRootBrowser.h"
 #include "TFile.h"
+#include "TStyle.h"
 
 #include "3rdParty/TAppKillManager.hpp"
 
@@ -19,6 +20,8 @@ int main(int argc, char* argv[])
       return -1;
    }
 
+   gStyle->SetOptFit(111);
+   gStyle->SetOptStat(0);
    TApplication app("RootFileBrowser",&argc,argv);
    TAppKillManager killer(app);
    TBrowser* browser=new TBrowser();
