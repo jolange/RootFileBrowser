@@ -1,4 +1,5 @@
 #include <iostream>
+#include <vector>
 
 #include "TApplication.h"
 #include "TBrowser.h"
@@ -14,14 +15,21 @@ int main(int argc, char* argv[])
       std::cout << "Error: specifiy name of *.root file as parameter" << std::endl;
       return -1;
    }
-   TFile file(argv[1],"READ");
-   if (file.IsZombie()){
-      std::cout << "File is not valid or does not exist!" << std::endl;
-      return -1;
+   std::vector<TFile*> vFiles;
+   for (int i=1; i<argc;i++){
+      if (argc[i] == "-ns"){
+         gStyle->SetOptStat(0);
+         continue;
+      }
+      TFile* file = new TFile(argv[i],"READ");
+      if (file->IsZombie()){
+         std::cout << "File is not valid or does not exist:" << argv[i] << std::endl;
+         return -1;
+      }
+      vFiles.push_back(file);
    }
 
    gStyle->SetOptFit(111);
-   gStyle->SetOptStat(0);
    TApplication app("RootFileBrowser",&argc,argv);
    TAppKillManager killer(app);
    TBrowser* browser=new TBrowser();
@@ -29,6 +37,10 @@ int main(int argc, char* argv[])
    killer.KillOnSignal(imp,"CloseWindow()");
    app.Run();
    delete browser;
-   file.Close();
+   std::vector<TFile*>::iterator file = vFiles.begin();
+   for (;file!=vFiles.begin(); file++){
+      (*file)->Close();
+      delete (*file);
+   }
    return 0;
 }
