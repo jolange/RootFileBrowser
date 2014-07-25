@@ -16,8 +16,9 @@ int main(int argc, char* argv[])
       return -1;
    }
    std::vector<TFile*> vFiles;
+   std::string optNoStats = "-ns";
    for (int i=1; i<argc;i++){
-      if (argc[i] == "-ns"){
+      if (optNoStats.compare(argv[i]) == 0){
          gStyle->SetOptStat(0);
          continue;
       }
