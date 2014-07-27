@@ -14,4 +14,9 @@ Usage
 $ git submodule init
 $ git submodule update
 $ make
-$ ./RootFileBrower <your-file>.root </code></pre>
+$ ./RootFileBrowser &lt;your-file&gt;.root </code></pre>
+
+|Option | Description                                |
+|-------|--------------------------------------------|
+|-ns    | Don't show statistics window for histograms|
+ 
