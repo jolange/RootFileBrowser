@@ -1,25 +1,31 @@
 #include <iostream>
 #include <vector>
 
+#include "TSystem.h"
 #include "TApplication.h"
 #include "TBrowser.h"
 #include "TRootBrowser.h"
 #include "TFile.h"
+#include "TVirtualMutex.h"
 #include "TStyle.h"
+#include "TString.h"
+#include "TROOT.h"
 
 #include "3rdParty/TAppKillManager.hpp"
 
 int main(int argc, char* argv[])
 {
-   if (argc == 1){
-      std::cout << "Error: specifiy name of *.root file as parameter" << std::endl;
-      return -1;
-   }
    std::vector<TFile*> vFiles;
    std::string optNoStats = "-ns";
+   std::string optStyle = "-s";
+   int iStyleArg = -1;
    for (int i=1; i<argc;i++){
       if (optNoStats.compare(argv[i]) == 0){
          gStyle->SetOptStat(0);
+         continue;
+      }
+      if (optStyle.compare(argv[i]) == 0){
+         iStyleArg = ++i;
          continue;
       }
       TFile* file = new TFile(argv[i],"READ");
@@ -30,7 +36,13 @@ int main(int argc, char* argv[])
       vFiles.push_back(file);
    }
 
-   gStyle->SetOptFit(111);
+   if (iStyleArg != -1 && !vFiles.empty()){ // otherwise strange errors, if no files
+      if (iStyleArg >= argc){
+         std::cout << "specify style file after '-s'!" << std::endl;
+         return -1;      
+      }
+      gROOT->Macro(argv[iStyleArg]);
+   }
    TApplication app("RootFileBrowser",&argc,argv);
    TAppKillManager killer(app);
    TBrowser* browser=new TBrowser();
