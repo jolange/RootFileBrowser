@@ -1,17 +1,32 @@
 #include <iostream>
 #include <vector>
 
-#include "TSystem.h"
 #include "TApplication.h"
 #include "TBrowser.h"
-#include "TRootBrowser.h"
 #include "TFile.h"
-#include "TVirtualMutex.h"
-#include "TStyle.h"
-#include "TString.h"
+#include "TObjArray.h"
+#include "TObjString.h"
+#include "TRootBrowser.h"
 #include "TROOT.h"
+#include "TString.h"
+#include "TStyle.h"
+#include "TSystem.h"
+#include "TVirtualMutex.h"
 
 #include "3rdParty/TAppKillManager.hpp"
+
+
+static int  browse(int argc, char* argv[]);
+static void getPathAndFilename(TString fullName,TString& path,TString& fileName);
+static int  del(int argc, char* argv[]);
+
+int main(int argc, char* argv[])
+{
+   std::string optDelete = "-d";
+   if (argc > 3 && optDelete.compare(argv[1]) == 0)
+      return del(argc-2,&argv[2]);
+   return browse(argc,argv);
+}
 
 int browse(int argc, char* argv[])
 {
@@ -58,6 +73,18 @@ int browse(int argc, char* argv[])
    return 0;
 }
 
+void getPathAndFilename(TString fullName,TString& path,TString& fileName)
+{
+   path="";
+   fileName="";
+   TObjArray* tokens = fullName.Tokenize("/");
+   int i;
+   for (i=0; i<tokens->GetEntries() -1; i++){
+      path += ((TObjString*)(tokens->At(i)))->GetString() + "/";
+   }
+   fileName=((TObjString*)(tokens->At(i)))->GetString();
+}
+
 int del(int argc, char* argv[])
 {
    TFile file(argv[0],"UPDATE");
@@ -65,20 +92,14 @@ int del(int argc, char* argv[])
       std::cout << "File is not valid or does not exist:" << argv[0] << std::endl;
       return -1;
    }
+   TString path;
+   TString name;
    for (int i=1; i< argc; i++){
-      file.Delete((std::string(argv[i])+";*").c_str());
-      std::cout << "deleted" << argv[i] << std::endl;
+      std::cout << "deleting " << argv[i] << std::endl;
+      getPathAndFilename(TString(argv[i])+";*",path,name);
+      file.cd(path);
+      gDirectory->Delete(name);
    }
    file.Close();
    return 0;
-}
-
-int main(int argc, char* argv[])
-{
-   std::cout << argc << std::endl;
-   std::string optDelete = "-d";
-
-   if (argc > 3 && optDelete.compare(argv[1]) == 0)
-      return del(argc-2,&argv[2]);
-   return browse(argc,argv);
 }
