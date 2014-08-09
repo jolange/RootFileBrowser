@@ -13,7 +13,7 @@
 
 #include "3rdParty/TAppKillManager.hpp"
 
-int main(int argc, char* argv[])
+int browse(int argc, char* argv[])
 {
    std::vector<TFile*> vFiles;
    std::string optNoStats = "-ns";
@@ -39,7 +39,7 @@ int main(int argc, char* argv[])
    if (iStyleArg != -1 && !vFiles.empty()){ // otherwise strange errors, if no files
       if (iStyleArg >= argc){
          std::cout << "specify style file after '-s'!" << std::endl;
-         return -1;      
+         return -1;
       }
       gROOT->Macro(argv[iStyleArg]);
    }
@@ -56,4 +56,29 @@ int main(int argc, char* argv[])
       delete (*file);
    }
    return 0;
+}
+
+int del(int argc, char* argv[])
+{
+   TFile file(argv[0],"UPDATE");
+   if (file.IsZombie()){
+      std::cout << "File is not valid or does not exist:" << argv[0] << std::endl;
+      return -1;
+   }
+   for (int i=1; i< argc; i++){
+      file.Delete((std::string(argv[i])+";*").c_str());
+      std::cout << "deleted" << argv[i] << std::endl;
+   }
+   file.Close();
+   return 0;
+}
+
+int main(int argc, char* argv[])
+{
+   std::cout << argc << std::endl;
+   std::string optDelete = "-d";
+
+   if (argc > 3 && optDelete.compare(argv[1]) == 0)
+      return del(argc-2,&argv[2]);
+   return browse(argc,argv);
 }
