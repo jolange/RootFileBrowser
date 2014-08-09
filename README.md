@@ -16,7 +16,9 @@ $ git submodule update
 $ make
 $ ./RootFileBrowser &lt;your-file&gt;.root </code></pre>
 
-|Option | Description                                |
-|-------|--------------------------------------------|
-|-ns    | Don't show statistics window for histograms|
+|Option                                       | Description                                |
+|---------------------------------------------|--------------------------------------------|
+|<code>-ns</code>                             | Don't show statistics window for histograms|
+|<code>-s &lt;myStyle.C&gt;</code>            | Specify macro that sets your style. The function <code>&lt;myStyle&gt;()</code> is called.|
+|<code>-d &lt;file.root&gt; &lt;KEY&gt;</code>| Deletes <code>&lt;KEY&gt;</code> from file. <code>-d</code> must be the first parameter, only one file but several keys can be specified. To delete keys in subdirectories, type <code>&lt;subdir&gt;/&lt;KEY&gt;</code>. Wildcards work (e.g. <code>myHistograms/*</code>)|
  
