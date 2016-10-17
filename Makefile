@@ -23,7 +23,7 @@ all: $(OBJDIR) $(BIN)
 # == Building and Linking ==
 $(BIN): $(OBJS)
 	@echo -n "Linking  $@... "
-	$(CXX) $(INCLUDE) $(LIBS) -o $@ $^
+	$(CXX) -o $@ $^ $(LIBS)
 	@echo "done"
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.cpp
