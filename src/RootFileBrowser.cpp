@@ -1,8 +1,10 @@
 #include <iostream>
+#include <memory>
 #include <vector>
 
 #include "TApplication.h"
 #include "TBrowser.h"
+
 #include "TFile.h"
 #include "TObjArray.h"
 #include "TObjString.h"
@@ -30,7 +32,7 @@ int main(int argc, char* argv[])
 
 int browse(int argc, char* argv[])
 {
-   std::vector<TFile*> vFiles;
+   std::vector<std::shared_ptr<TFile>> vFiles;
    std::string optNoStats = "-ns";
    std::string optStyle = "-s";
    int iStyleArg = -1;
@@ -43,7 +45,7 @@ int browse(int argc, char* argv[])
          iStyleArg = ++i;
          continue;
       }
-      TFile* file = new TFile(argv[i],"READ");
+      std::shared_ptr<TFile> file(new TFile(argv[i],"READ"));
       if (file->IsZombie()){
          std::cout << "File is not valid or does not exist:" << argv[i] << std::endl;
          return -1;
@@ -64,9 +66,8 @@ int browse(int argc, char* argv[])
    TRootBrowser* imp=(TRootBrowser*)browser.GetBrowserImp();
    killer.KillOnSignal(imp,"CloseWindow()");
    app.Run();
-   for (TFile *file: vFiles) {
+   for (std::shared_ptr<TFile> file: vFiles) {
       file->Close();
-      delete file;
    }
    return 0;
 }
