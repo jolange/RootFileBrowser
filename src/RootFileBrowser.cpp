@@ -60,11 +60,10 @@ int browse(int argc, char* argv[])
    }
    TApplication app("RootFileBrowser",&argc,argv);
    TAppKillManager killer(app);
-   TBrowser* browser=new TBrowser();
-   TRootBrowser* imp=(TRootBrowser*)browser->GetBrowserImp();
+   TBrowser browser;
+   TRootBrowser* imp=(TRootBrowser*)browser.GetBrowserImp();
    killer.KillOnSignal(imp,"CloseWindow()");
    app.Run();
-   delete browser;
    std::vector<TFile*>::iterator file = vFiles.begin();
    for (;file!=vFiles.begin(); file++){
       (*file)->Close();
