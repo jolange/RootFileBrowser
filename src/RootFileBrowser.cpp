@@ -64,10 +64,9 @@ int browse(int argc, char* argv[])
    TRootBrowser* imp=(TRootBrowser*)browser.GetBrowserImp();
    killer.KillOnSignal(imp,"CloseWindow()");
    app.Run();
-   std::vector<TFile*>::iterator file = vFiles.begin();
-   for (;file!=vFiles.begin(); file++){
-      (*file)->Close();
-      delete (*file);
+   for (TFile *file: vFiles) {
+      file->Close();
+      delete file;
    }
    return 0;
 }
