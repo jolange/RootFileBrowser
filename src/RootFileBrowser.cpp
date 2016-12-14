@@ -33,8 +33,10 @@ int main(int argc, char* argv[])
 int browse(int argc, char* argv[])
 {
    std::vector<std::shared_ptr<TFile>> vFiles;
+   std::vector<std::string> vCommands;
    std::string optNoStats = "-ns";
    std::string optStyle = "-s";
+   std::string optCommand = "-c";
    int iStyleArg = -1;
    for (int i=1; i<argc;i++){
       if (optNoStats.compare(argv[i]) == 0){
@@ -43,6 +45,10 @@ int browse(int argc, char* argv[])
       }
       if (optStyle.compare(argv[i]) == 0){
          iStyleArg = ++i;
+         continue;
+      }
+      if (optCommand.compare(argv[i]) == 0) {
+         vCommands.push_back(argv[++i]);
          continue;
       }
       std::shared_ptr<TFile> file(new TFile(argv[i],"READ"));
@@ -60,6 +66,11 @@ int browse(int argc, char* argv[])
       }
       gROOT->Macro(argv[iStyleArg]);
    }
+
+   for (std::string cmd: vCommands) {
+      gROOT->ProcessLine(cmd.c_str());
+   }
+
    TApplication app("RootFileBrowser",&argc,argv);
    TAppKillManager killer(app);
    TBrowser browser;
