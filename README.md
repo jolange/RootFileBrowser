@@ -9,17 +9,18 @@ Uses [TAppKillManager](https://github.com/jolange/TAppKillManager).
 
 Usage
 -----
-
-<pre><code># checkout and compile
+```
+# checkout and compile
 git clone --recursive git@github.com:jolange/RootFileBrowser.git
 cd RootFileBrowser
 make
 # run
-./RootFileBrowser &lt;your-file&gt;.root </code></pre>
+./RootFileBrowser <your-file>.root
+```
 
-|Option                                       | Description                                |
-|---------------------------------------------|--------------------------------------------|
-|<code>-ns</code>                             | Don't show statistics window for histograms|
-|<code>-s &lt;myStyle.C&gt;</code>            | Specify macro that sets your style. The function <code>&lt;myStyle&gt;()</code> is called.|
-|<code>-d &lt;file.root&gt; &lt;KEY&gt;</code>| Deletes <code>&lt;KEY&gt;</code> from file. <code>-d</code> must be the first parameter. Only one file but several keys can be specified. To delete keys in subdirectories, type <code>&lt;subdir&gt;/&lt;KEY&gt;</code>. Wildcards work (e.g. <code>myHistograms/*</code>)|
+|Option                 | Description                                |
+|-----------------------|--------------------------------------------|
+|`-ns`                  | Don't show statistics window for histograms|
+|`-s <myStyle.C>`       | Specify macro that sets your style. The function `<myStyle>()` is called.|
+|`-d <file.root> <KEY>` | Deletes `<KEY>` from file. `-d` must be the first parameter. Only one file but several keys can be specified. To delete keys in subdirectories, type `<subdir>/<KEY>`. Wildcards work (e.g. `myHistograms/*`)|
  
