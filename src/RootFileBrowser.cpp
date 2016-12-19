@@ -34,17 +34,17 @@ int browse(int argc, char* argv[])
 {
    std::vector<std::shared_ptr<TFile>> vFiles;
    std::vector<std::string> vCommands;
+   std::vector<std::string> vStyleFiles;
    std::string optNoStats = "-ns";
    std::string optStyle = "-s";
    std::string optCommand = "-c";
-   int iStyleArg = -1;
    for (int i=1; i<argc;i++){
       if (optNoStats.compare(argv[i]) == 0){
          gStyle->SetOptStat(0);
          continue;
       }
       if (optStyle.compare(argv[i]) == 0){
-         iStyleArg = ++i;
+         vStyleFiles.push_back(argv[++i]);
          continue;
       }
       if (optCommand.compare(argv[i]) == 0) {
@@ -59,12 +59,9 @@ int browse(int argc, char* argv[])
       vFiles.push_back(file);
    }
 
-   if (iStyleArg != -1 && !vFiles.empty()){ // otherwise strange errors, if no files
-      if (iStyleArg >= argc){
-         std::cout << "specify style file after '-s'!" << std::endl;
-         return -1;
-      }
-      gROOT->Macro(argv[iStyleArg]);
+   for (std::string f: vStyleFiles) {
+      if (vFiles.empty()) break; // otherwise strange errors, if no files
+      gROOT->Macro(f.c_str());
    }
 
    for (std::string cmd: vCommands) {

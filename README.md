@@ -21,7 +21,7 @@ make
 |Option                 | Description                                |
 |-----------------------|--------------------------------------------|
 |`-ns`                  | Don't show statistics window for histograms|
-|`-s <myStyle.C>`       | Specify macro that sets your style. The function `<myStyle>()` is called.|
+|`-s <myStyle.C>`       | Specify macro that sets your style. The function `<myStyle>()` is called. Can be used multiple times.|
 |`-d <file.root> <KEY>` | Deletes `<KEY>` from file. `-d` must be the first parameter. Only one file but several keys can be specified. To delete keys in subdirectories, type `<subdir>/<KEY>`. Wildcards work (e.g. `myHistograms/*`)|
-|`-c <command>`         | Executes a single root command (e.g `"gStyle->SetGridStyle(1)"`). Can be used mutliple times. **Caution:** this option randomly causes crashes. |
+|`-c <command>`         | Executes a single root command (e.g `"gStyle->SetGridStyle(1)"`). Can be used multiple times. **Caution:** this option randomly causes crashes. |
 
